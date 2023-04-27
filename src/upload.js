@@ -7,7 +7,7 @@ const upload = async (file) => {
 
   try {
     const res = await newRequest.post(
-      "http://api.cloudinary.com/v1_1/reactbooking/upload",
+      "https://api.cloudinary.com/v1_1/reactbooking/upload",
       data
     );
 
