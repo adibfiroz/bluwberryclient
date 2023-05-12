@@ -83,6 +83,7 @@ const Home = () => {
                         ))}
                     </>
                   )}
+                  {data === "" && "No results were found"}
                 </ul>
               )}
             </div>
