@@ -26,6 +26,15 @@ function App() {
     return children;
   };
 
+  const ProtectedRegRoute = ({ children }) => {
+    const { user } = useContext(AuthContext);
+
+    if (user) {
+      return <Navigate to="/" />;
+    }
+    return children;
+  };
+
   return (
     <div className="App">
       <QueryClientProvider client={queryClient}>
@@ -61,7 +70,14 @@ function App() {
               }
             />
             <Route path="login" element={<Login />} />
-            <Route path="register" element={<Register />} />
+            <Route
+              path="register"
+              element={
+                <ProtectedRegRoute>
+                  <Register />
+                </ProtectedRegRoute>
+              }
+            />
             <Route path="/:id-:id" element={<ReadAllReview />} />
           </Routes>
         </BrowserRouter>

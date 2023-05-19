@@ -62,6 +62,7 @@ const Register = () => {
       setLoading(false);
     } catch (err) {
       setError(true);
+      setLoading(false);
     }
   };
 
@@ -91,7 +92,14 @@ const Register = () => {
                   onChange={onChange}
                 />
               ))}
-              <button className="submit">
+              <button
+                className="submit"
+                disabled={
+                  !values.username ||
+                  !values.password ||
+                  !values.email + loading
+                }
+              >
                 {loading ? (
                   <img alt="" src="/loading.gif" width="40" height="40" />
                 ) : (
@@ -99,13 +107,13 @@ const Register = () => {
                 )}
               </button>
             </form>
-            {error && (
-              <span style={{ color: "red", marginTop: "10px" }}>
-                Something went wrong!
-              </span>
-            )}
           </div>
         </div>
+        {error && (
+          <div style={{ color: "red", marginTop: "10px", textAlign: "center" }}>
+            Something went wrong!
+          </div>
+        )}
       </div>
     </div>
   );

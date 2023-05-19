@@ -33,6 +33,13 @@
     display: none;
 }
 
+.userRed {
+    font-size: 14px;
+    color: red;
+    text-align: center;
+    font-weight: 600;
+}
+
 input:invalid[focused="true"]{
     border: 1px solid red;
 }

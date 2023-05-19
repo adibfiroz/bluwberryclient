@@ -3,7 +3,6 @@ import RespNavbar from "../../components/navbar/RespNavbar";
 import Navbar from "../../components/navbar/Navbar";
 import { Button } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
-import FacebookIcon from "@mui/icons-material/Facebook";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useContext } from "react";
@@ -17,6 +16,7 @@ import newRequest from "../../config";
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
   const navigate = useNavigate();
   const [isRevealPwd, setIsRevealPwd] = useState(false);
 
@@ -72,6 +72,7 @@ const Login = () => {
                 placeholder="Username"
                 onChange={(e) => setUsername(e.target.value)}
               />
+
               <label>Password</label>
               <div style={{ position: "relative" }}>
                 <input
@@ -93,8 +94,8 @@ const Login = () => {
                 </span>
               </div>
               <div className="fpassword">Forgot Password?</div>
-              <Button
-                disabled={loading}
+              <button
+                disabled={!username || !password + loading}
                 className="submit"
                 onClick={handleLogin}
               >
@@ -103,7 +104,7 @@ const Login = () => {
                 ) : (
                   "Login"
                 )}
-              </Button>
+              </button>
 
               {error && <span className="errorLogin">{error.message}</span>}
             </div>
@@ -112,10 +113,6 @@ const Login = () => {
               <div className="socialBtn" onClick={handleGoogleLogin}>
                 <GoogleIcon />
                 Login with Google
-              </div>
-              <div className="socialBtn">
-                <FacebookIcon />
-                Login with Facebook
               </div>
             </div>
           </div>
