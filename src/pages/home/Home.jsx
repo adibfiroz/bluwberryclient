@@ -22,13 +22,17 @@ const Home = () => {
     setShowSearch(e.target.value);
   };
 
+  const filterList = data.filter((search) =>
+    search.name.toLowerCase().includes(showSearch.toLowerCase())
+  );
+
   useEffect(() => {
     const getCats = async () => {
       const res = await newRequest.get("/categories?trending=true&limit=8");
       setGetCats(res.data);
     };
     getCats();
-  }, []);
+  });
   return (
     <div className="home">
       <RespNavbar />
@@ -56,34 +60,32 @@ const Home = () => {
                     "loading"
                   ) : (
                     <>
-                      {data
-                        .filter((search) =>
-                          search.name
-                            .toLowerCase()
-                            .includes(showSearch.toLowerCase())
-                        )
-                        .sort((a, b) => a.name.localeCompare(b.name))
-                        .map((search) => (
-                          <li key={search._id}>
-                            <Link to={`/${search.name}-${search._id}`}>
-                              {search.name}
-                              <img
-                                className="serachLogo"
-                                src={search.sofwareLogo}
-                                alt=""
-                              />
-                            </Link>
-                            <Link
-                              to={`/softwares?catName=${search.catName}`}
-                              className="cat"
-                            >
-                              {search.catName}
-                            </Link>
-                          </li>
-                        ))}
+                      {filterList.map((search) => (
+                        <li key={search._id}>
+                          <Link to={`/${search.name}-${search._id}`}>
+                            {search.name}
+
+                            <img
+                              className="serachLogo"
+                              src={search.sofwareLogo}
+                              alt=""
+                            />
+                          </Link>
+                          <Link
+                            to={`/softwares?catName=${search.catName}`}
+                            className="cat"
+                          >
+                            {search.catName}
+                          </Link>
+                        </li>
+                      ))}
+                      {filterList.length === 0 && (
+                        <li className="notFound">
+                          No results found ("{showSearch}")
+                        </li>
+                      )}
                     </>
                   )}
-                  {data === "" && "No results were found"}
                 </ul>
               )}
             </div>

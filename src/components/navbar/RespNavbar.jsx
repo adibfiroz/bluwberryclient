@@ -17,23 +17,27 @@ import useFetch from "../../hooks/useFetch";
 const RespNavbar = (props) => {
   const [open, setOpen] = useState(false);
   const [opensearch, setOpenSearch] = useState(false);
-  const [userName, setuserName] = useState("");
-
   const { data, loading } = useFetch("/software");
   const { user, dispatch } = useContext(AuthContext);
+  const [showSearch, setShowSearch] = useState("");
 
-  const handleChange = (e) => {
-    setuserName(e.target.value);
-  };
-
-  const handleClear = (e) => {
-    setuserName((e.target.value = ""));
+  const onSearch = (e) => {
+    setShowSearch(e.target.value);
   };
 
   const handleLogout = () => {
     dispatch({ type: "LOGOUT" });
 
     setOpen(false, document.body.classList.remove("scrollHide"));
+  };
+
+  const filterList = data.filter((search) =>
+    search.name.toLowerCase().includes(showSearch.toLowerCase())
+  );
+
+  const handleClear = (e) => {
+    setShowSearch("");
+    setOpenSearch(false);
   };
 
   return (
@@ -66,36 +70,49 @@ const RespNavbar = (props) => {
             <input
               type="text"
               placeholder="Search Softwares"
-              value={userName}
-              onChange={handleChange}
+              value={showSearch}
+              onChange={onSearch}
             />
-            {userName ? (
-              <CloseRoundedIcon className="searchIcons" onClick={handleClear} />
+            {showSearch ? (
+              <CloseRoundedIcon
+                className="searchIcons"
+                onClick={() => setShowSearch("")}
+              />
             ) : (
               <SearchRoundedIcon className="searchIcons" />
             )}
           </div>
           <div className="resultText">
-            {userName.length > 1 && (
+            {showSearch.length > 1 && (
               <ul>
                 {loading ? (
                   "loading"
                 ) : (
                   <>
-                    {data
-                      .filter((search) =>
-                        search.name
-                          .toLowerCase()
-                          .includes(userName.toLowerCase())
-                      )
-                      .sort((a, b) => a.name.localeCompare(b.name))
-                      .map((search) => (
-                        <li key={search._id}>
-                          <Link to={`/${search.name}-${search._id}`}>
-                            {search.name}
-                          </Link>
-                        </li>
-                      ))}
+                    {filterList.map((search) => (
+                      <li key={search._id} onClick={handleClear}>
+                        <Link to={`/${search.name}-${search._id}`}>
+                          {search.name}
+
+                          <img
+                            className="serachLogo"
+                            src={search.sofwareLogo}
+                            alt=""
+                          />
+                        </Link>
+                        <Link
+                          to={`/softwares?catName=${search.catName}`}
+                          className="cat"
+                        >
+                          {search.catName}
+                        </Link>
+                      </li>
+                    ))}
+                    {filterList.length === 0 && (
+                      <li className="notFound">
+                        No results found ("{showSearch}")
+                      </li>
+                    )}
                   </>
                 )}
               </ul>
@@ -103,29 +120,103 @@ const RespNavbar = (props) => {
           </div>
         </div>
       )}
-      {open && (
-        <div>
-          <div
-            className="backLayer"
-            onClick={() =>
-              setOpen(false, document.body.classList.remove("scrollHide"))
-            }
-          ></div>
-          <div className="modal">
-            <div className="modalContent">
-              <div className="top">
-                {!user ? (
-                  <ul>
-                    <li
-                      style={{
-                        color: "#1859B4",
-                        fontWeight: "bolder",
-                        fontSize: "20px",
-                      }}
-                    >
-                      MENU
+
+      <div>
+        <div
+          className={"backLayer " + (open && "active")}
+          onClick={() =>
+            setOpen(false, document.body.classList.remove("scrollHide"))
+          }
+        ></div>
+        <div className={"modal " + (open && "active")}>
+          <div className="modalContent">
+            <div className="top">
+              {!user ? (
+                <ul>
+                  <li
+                    style={{
+                      color: "#1859B4",
+                      fontWeight: "bolder",
+                      fontSize: "20px",
+                    }}
+                  >
+                    MENU
+                  </li>
+                  <hr />
+                  <Link
+                    to="/"
+                    onClick={() =>
+                      setOpen(
+                        false,
+                        document.body.classList.remove("scrollHide")
+                      )
+                    }
+                  >
+                    <li>
+                      <HomeOutlinedIcon className="menuIcon" />
+                      Home
                     </li>
-                    <hr />
+                  </Link>
+                  <Link
+                    to="/categories"
+                    onClick={() =>
+                      setOpen(
+                        false,
+                        document.body.classList.remove("scrollHide")
+                      )
+                    }
+                  >
+                    <li>
+                      <CategoryOutlinedIcon className="menuIcon" />
+                      Software Categories
+                    </li>
+                  </Link>
+                  <li>
+                    <PanoramaOutlinedIcon className="menuIcon" />
+                    Advertise with us
+                  </li>
+                  <Link
+                    to="/categories"
+                    onClick={() =>
+                      setOpen(
+                        false,
+                        document.body.classList.remove("scrollHide")
+                      )
+                    }
+                  >
+                    <li>
+                      <RateReviewOutlinedIcon className="menuIcon" />
+                      Write a Review
+                    </li>
+                  </Link>
+                  <hr />
+                  <Link
+                    to="/login"
+                    onClick={() =>
+                      setOpen(
+                        false,
+                        document.body.classList.remove("scrollHide")
+                      )
+                    }
+                  >
+                    <li>
+                      <LoginOutlinedIcon className="menuIcon" />
+                      Login In / Sign Up
+                    </li>
+                  </Link>
+                </ul>
+              ) : (
+                <>
+                  <div className="userSection">
+                    <Link to={`/profile/?user=${user.username}`}>
+                      <img
+                        src={user.profilePic || "/userDefault.jpg"}
+                        alt="userImg"
+                      />
+                    </Link>
+                    <div className="userMenu">{user.username}</div>
+                  </div>
+                  <ul>
                     <Link
                       to="/"
                       onClick={() =>
@@ -138,6 +229,20 @@ const RespNavbar = (props) => {
                       <li>
                         <HomeOutlinedIcon className="menuIcon" />
                         Home
+                      </li>
+                    </Link>
+                    <Link
+                      to={`/profile/?user=${user.username}`}
+                      onClick={() =>
+                        setOpen(
+                          false,
+                          document.body.classList.remove("scrollHide")
+                        )
+                      }
+                    >
+                      <li>
+                        <AccountCircleOutlinedIcon className="menuIcon" />
+                        Profile
                       </li>
                     </Link>
                     <Link
@@ -154,10 +259,6 @@ const RespNavbar = (props) => {
                         Software Categories
                       </li>
                     </Link>
-                    <li>
-                      <PanoramaOutlinedIcon className="menuIcon" />
-                      Advertise with us
-                    </li>
                     <Link
                       to="/categories"
                       onClick={() =>
@@ -172,114 +273,29 @@ const RespNavbar = (props) => {
                         Write a Review
                       </li>
                     </Link>
-                    <hr />
-                    <Link
-                      to="/login"
-                      onClick={() =>
-                        setOpen(
-                          false,
-                          document.body.classList.remove("scrollHide")
-                        )
-                      }
-                    >
-                      <li>
-                        <LoginOutlinedIcon className="menuIcon" />
-                        Login In / Sign Up
-                      </li>
-                    </Link>
                   </ul>
-                ) : (
-                  <>
-                    <div className="userSection">
-                      <Link to={`/profile/?user=${user.username}`}>
-                        <img
-                          src={user.profilePic || "/userDefault.jpg"}
-                          alt="userImg"
-                        />
-                      </Link>
-                      <div className="userMenu">{user.username}</div>
-                    </div>
-                    <ul>
-                      <Link
-                        to="/"
-                        onClick={() =>
-                          setOpen(
-                            false,
-                            document.body.classList.remove("scrollHide")
-                          )
-                        }
-                      >
-                        <li>
-                          <HomeOutlinedIcon className="menuIcon" />
-                          Home
-                        </li>
-                      </Link>
-                      <Link
-                        to={`/profile/?user=${user.username}`}
-                        onClick={() =>
-                          setOpen(
-                            false,
-                            document.body.classList.remove("scrollHide")
-                          )
-                        }
-                      >
-                        <li>
-                          <AccountCircleOutlinedIcon className="menuIcon" />
-                          Profile
-                        </li>
-                      </Link>
-                      <Link
-                        to="/categories"
-                        onClick={() =>
-                          setOpen(
-                            false,
-                            document.body.classList.remove("scrollHide")
-                          )
-                        }
-                      >
-                        <li>
-                          <CategoryOutlinedIcon className="menuIcon" />
-                          Software Categories
-                        </li>
-                      </Link>
-                      <Link
-                        to="/categories"
-                        onClick={() =>
-                          setOpen(
-                            false,
-                            document.body.classList.remove("scrollHide")
-                          )
-                        }
-                      >
-                        <li>
-                          <RateReviewOutlinedIcon className="menuIcon" />
-                          Write a Review
-                        </li>
-                      </Link>
-                    </ul>
-                  </>
-                )}
-              </div>
-
-              {user ? (
-                <div className="bottom">
-                  <ul>
-                    <hr />
-                    <Link to="/" onClick={handleLogout}>
-                      <li style={{ color: "red" }}>
-                        <LogoutOutlinedIcon className="logout" />
-                        Logout
-                      </li>
-                    </Link>
-                  </ul>
-                </div>
-              ) : (
-                <></>
+                </>
               )}
             </div>
+
+            {user ? (
+              <div className="bottom">
+                <ul>
+                  <hr />
+                  <Link to="/" onClick={handleLogout}>
+                    <li style={{ color: "red" }}>
+                      <LogoutOutlinedIcon className="logout" />
+                      Logout
+                    </li>
+                  </Link>
+                </ul>
+              </div>
+            ) : (
+              <></>
+            )}
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };

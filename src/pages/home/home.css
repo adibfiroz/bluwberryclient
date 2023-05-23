@@ -62,11 +62,12 @@
     z-index: 8;
 }
 
-.headSearch ul li a  {
+.headSearch ul li a, .headSearch ul h1  {
     text-align: left;
     padding: 10px 20px;
     font-size: 15px;
     color: #000;
+    font-weight: 500;
     cursor: pointer;
     display: block;
 }
@@ -94,6 +95,13 @@
     border-radius: 30px;
     top: 6px;
     cursor: pointer;
+}
+
+.headSearch .notFound {
+    font-size: 15px;
+    font-weight: 500;
+    padding: 10px 20px;
+    text-align: left;
 }
 
 .search {

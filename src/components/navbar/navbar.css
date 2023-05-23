@@ -33,6 +33,12 @@
     cursor: pointer;
     display: block;
 }
+.navSearch .notFound {
+    font-size: 15px;
+    font-weight: 500;
+    padding: 10px 20px;
+    text-align: left;
+}
 
 .navSearch li:not(:last-child) {
     border-bottom: 1px solid #e0e1e2;
@@ -48,10 +54,6 @@
     to {transform: translateY(0%);}
 }
 
-@keyframes drawer {
-    from {transform:translateX(-50%);}
-    to {transform: translateX(0%);}
-}
 
 .Lcontents, .Rcontents {
     display: flex;
@@ -96,14 +98,19 @@
 }
 
 .modal  {
+    width: 250px;
     position: fixed;
     top: 0;
     bottom: 0;
-    left: 0;
+    left: -250px;
     background: #fff;
     z-index: 10000;
-    width: 250px;
-    animation: drawer 300ms;
+    transition: all 0.5s ease;
+}
+
+.modal.active {
+    left: 0;
+    transition: all 0.5s ease;
 }
 
 .backLayer {
@@ -114,6 +121,14 @@
     bottom: 0;
     background-color: rgba(0,0,0,0.7);
     z-index: 9999;
+    transition: all 0.3s ease;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.backLayer.active {
+    visibility: visible;
+    opacity: 1;
 }
 
 .scrollHide {
@@ -161,6 +176,23 @@
     outline: none;
     color: #000;
     padding-right: 45px;
+}
+
+.navSearch ul h1  {
+    text-align: left;
+    padding: 10px 20px;
+    font-size: 15px;
+    color: #000;
+    font-weight: 500;
+    cursor: pointer;
+    display: block;
+}
+
+.navSearch ul li .cat {
+    color: #1859B4;
+    font-size: 12px;
+    padding-top: 0;
+    font-weight: 600;
 }
 
 .navSearch input:focus {
@@ -308,6 +340,22 @@
     }
     .resultText ul {
         padding-top: 10px;
+    }
+    .resultText ul .notFound  {
+        text-align: left;
+        padding: 10px 20px;
+        font-size: 15px;
+        color: #000;
+        font-weight: 500;
+        cursor: pointer;
+        display: block;
+    }
+    
+    .resultText ul li .cat {
+        color: #1859B4;
+        font-size: 12px;
+        padding-top: 0;
+        font-weight: 600;
     }
     .resSearch input {
         background-color: #fff;

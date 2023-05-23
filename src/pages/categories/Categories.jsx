@@ -6,10 +6,15 @@ import Navbar from "../../components/navbar/Navbar";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { useState } from "react";
 import useFetch from "../../hooks/useFetch";
+import Footer from "../../components/footer/Footer";
 
 const Categories = () => {
   const [query, setQuery] = useState("");
   const { data, loading } = useFetch("/categories");
+
+  const filterList = data.filter((category) =>
+    category.name.toLowerCase().includes(query.toLowerCase())
+  );
 
   return (
     <div className="Categories">
@@ -28,7 +33,7 @@ const Categories = () => {
 
       <div className="catSearch">
         <input
-          type="text"
+          type="search"
           placeholder="Search Software"
           onChange={(e) => setQuery(e.target.value)}
         />
@@ -42,10 +47,7 @@ const Categories = () => {
           "loading"
         ) : (
           <>
-            {data
-              .filter((category) =>
-                category.name.toLowerCase().includes(query.toLowerCase())
-              )
+            {filterList
               .sort((a, b) => a.name.localeCompare(b.name))
               .map((category) => (
                 <div key={category._id}>
@@ -59,7 +61,11 @@ const Categories = () => {
               ))}
           </>
         )}
+        {filterList.length === 0 && (
+          <div className="notFoundCAt">No results found</div>
+        )}
       </div>
+      <Footer />
     </div>
   );
 };

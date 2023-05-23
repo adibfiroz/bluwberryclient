@@ -9,8 +9,7 @@ import useFetch from "../../hooks/useFetch";
 
 const Navbar = () => {
   const [addClass, setAddClass] = useState(false);
-
-  const { user, dispatch } = useContext(AuthContext);
+  const { user, dispatch, loading } = useContext(AuthContext);
   const navigate = useNavigate();
   const { data } = useFetch("/software");
   const [showSearch, setShowSearch] = useState("");
@@ -18,6 +17,10 @@ const Navbar = () => {
   const onSearch = (e) => {
     setShowSearch(e.target.value);
   };
+
+  const filterList = data.filter((search) =>
+    search.name.toLowerCase().includes(showSearch.toLowerCase())
+  );
 
   const checkScrollTop = () => {
     if (!addClass && window.pageYOffset > 300) {
@@ -65,26 +68,36 @@ const Navbar = () => {
             </span>
             {showSearch.length > 1 && (
               <ul>
-                {data
-                  .filter((search) =>
-                    search.name.toLowerCase().includes(showSearch.toLowerCase())
-                  )
-                  .sort((a, b) => a.name.localeCompare(b.name))
-                  .map((search) => (
-                    <li key={search._id}>
-                      <Link
-                        onClick={handleClear}
-                        to={`/${search.name}-${search._id}`}
-                      >
-                        {search.name}
-                        <img
-                          className="serachLogo"
-                          src={search.sofwareLogo}
-                          alt=""
-                        />
-                      </Link>
-                    </li>
-                  ))}
+                {loading ? (
+                  "loading"
+                ) : (
+                  <>
+                    {filterList.map((search) => (
+                      <li key={search._id} onClick={handleClear}>
+                        <Link to={`/${search.name}-${search._id}`}>
+                          {search.name}
+
+                          <img
+                            className="serachLogo"
+                            src={search.sofwareLogo}
+                            alt=""
+                          />
+                        </Link>
+                        <Link
+                          to={`/softwares?catName=${search.catName}`}
+                          className="cat"
+                        >
+                          {search.catName}
+                        </Link>
+                      </li>
+                    ))}
+                    {filterList.length === 0 && (
+                      <li className="notFound">
+                        No results found ("{showSearch}")
+                      </li>
+                    )}
+                  </>
+                )}
               </ul>
             )}
           </div>

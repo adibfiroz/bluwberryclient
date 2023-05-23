@@ -148,7 +148,5 @@
     .login {
         padding-bottom: 20px;
     }
-    .login, .itemCenter {
-        height: auto;
-    }
+ 
 }

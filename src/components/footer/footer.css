@@ -31,15 +31,21 @@
 .middle p {
     color: #fff;
     padding-left: 15px;
+    padding-bottom: 5px;
 }
 
-.middle ul li {
+.middle ul li a  {
+    color: #aea7a7;
+    font-size: 16px;
+}
+
+.middle ul li  {
     padding: 10px 15px;
     color: #aea7a7;
     font-size: 16px;
 }
 
-.middle ul li:hover {
+.middle ul li:hover, .middle ul li a:hover {
     transition: 0.2s;
     color: #fff;
     cursor: pointer;

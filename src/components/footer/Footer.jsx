@@ -2,6 +2,7 @@ import "./footer.css";
 import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import InstagramIcon from "@mui/icons-material/Instagram";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -14,10 +15,21 @@ const Footer = () => {
           <div className="list middle">
             <p>UseFull Links</p>
             <ul>
-              <li>Software categories</li>
+              <li>
+                <Link to="/categories">Software categories</Link>
+              </li>
               <li>Write a Review</li>
               <li>Advertise with Us</li>
-              <li>About</li>
+              <li>About Us</li>
+            </ul>
+          </div>
+          <div className="list middle">
+            <p>Other Links</p>
+            <ul>
+              <li>Terms & Conditions</li>
+              <li>Privacy</li>
+              <li>Advertise with Us</li>
+              <li>Contact Us</li>
             </ul>
           </div>
           <div className="list">
@@ -32,8 +44,8 @@ const Footer = () => {
       </div>
       <div className="fooBottom">
         <span>
-          Copyright © {new Date().getFullYear()} Bluwberry.com. All rights
-          reserved.
+          Project By Adib Firoz Copyright © {new Date().getFullYear()}{" "}
+          bluwbery.onrender.com
         </span>
       </div>
     </div>

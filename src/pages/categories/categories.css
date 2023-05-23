@@ -3,6 +3,7 @@
     margin: auto;
     padding: 20px;
     padding-top: 40px;
+    padding-bottom: 40px;
     position: relative;
 }
 
@@ -42,4 +43,13 @@
 
 .catList:hover   {
     color: #1859B4;
+}
+
+.Categories .notFoundCAt {
+    font-size: 25px;
+    font-weight: bold;
+    color: red;
+    text-align: center;
+    margin: 50px;
+    margin-top: 0px;
 }

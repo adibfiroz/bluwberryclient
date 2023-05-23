@@ -1,9 +1,23 @@
 import "./review.css";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Review from "./Review";
 import useFetch from "../../hooks/useFetch";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
+
 const Reviews = ({ softId }) => {
   const { data } = useFetch(`/reviews/${softId}`);
+  const { user } = useContext(AuthContext);
+
+  const navigate = useNavigate();
+
+  const handleForOrLogin = () => {
+    if (user) {
+      navigate(`/write-review/${softId}`);
+    } else {
+      navigate("/login");
+    }
+  };
 
   return (
     <div className="reviewUser">
@@ -12,7 +26,7 @@ const Reviews = ({ softId }) => {
       ) : (
         <p className="noReview">
           There are no reviews available. Be the first to
-          <Link to={`/write-review/${softId}`}> Write a Review</Link>
+          <span onClick={handleForOrLogin}> Write a Review</span>
         </p>
       )}
     </div>

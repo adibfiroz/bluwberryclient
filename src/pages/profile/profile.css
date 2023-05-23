@@ -312,5 +312,11 @@
     .lEditUser {
         align-self: auto;
     }
-    
+    .userProfile .listContainer {
+        display: block;
+    }
+    .userProfile .listTitle {
+        padding-top: 80px;
+        padding-bottom: 40px;
+    }
 }
