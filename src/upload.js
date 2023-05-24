@@ -1,4 +1,4 @@
-import newRequest from "./config";
+import axios from "axios";
 
 const upload = async (file) => {
   const data = new FormData();
@@ -6,7 +6,7 @@ const upload = async (file) => {
   data.append("upload_preset", "bluwberry");
 
   try {
-    const res = await newRequest.post(
+    const res = await axios.post(
       "https://api.cloudinary.com/v1_1/reactbooking/upload",
       data
     );

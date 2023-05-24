@@ -9,14 +9,16 @@ import ArticleCard from "../../components/articlecard/ArticleCard";
 import Footer from "../../components/footer/Footer";
 import GoToTop from "../../components/gototop/GoToTop";
 import useFetch from "../../hooks/useFetch";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import newRequest from "../../config";
+import Skeleton from "../../components/skeleton/Skeleton";
 
 const Home = () => {
   const [showSearch, setShowSearch] = useState("");
   const { data, loading } = useFetch("/software");
-  const [cats, setGetCats] = useState([]);
+  const { data: dTrend, loading: lTrend } = useFetch(
+    "/categories?trending=true&limit=8"
+  );
 
   const onSearch = (e) => {
     setShowSearch(e.target.value);
@@ -26,13 +28,6 @@ const Home = () => {
     search.name.toLowerCase().includes(showSearch.toLowerCase())
   );
 
-  useEffect(() => {
-    const getCats = async () => {
-      const res = await newRequest.get("/categories?trending=true&limit=8");
-      setGetCats(res.data);
-    };
-    getCats();
-  });
   return (
     <div className="home">
       <RespNavbar />
@@ -136,16 +131,20 @@ const Home = () => {
               <img alt="trend" src="./img4.png" />
             </div>
             <div className="trendBox">
-              {cats?.map((trend) => (
-                <Link
-                  to={`/softwares?catName=${trend.name}`}
-                  className="categoryTitle"
-                  key={trend._id}
-                >
-                  {trend.name}
-                  <ChevronRightRoundedIcon />
-                </Link>
-              ))}
+              {lTrend ? (
+                <Skeleton type="TrendList" />
+              ) : (
+                dTrend?.map((trend) => (
+                  <Link
+                    to={`/softwares?catName=${trend.name}`}
+                    className="categoryTitle"
+                    key={trend._id}
+                  >
+                    {trend.name}
+                    <ChevronRightRoundedIcon />
+                  </Link>
+                ))
+              )}
             </div>
           </div>
         </div>

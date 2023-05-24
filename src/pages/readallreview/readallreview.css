@@ -25,6 +25,10 @@
     gap: 20px;
     border-radius: 5px;
     margin-top: 20px;
+    position: sticky;
+    top: 70px;
+    z-index: 8;
+    background: #fff;
 }
 
 .tabList a {
@@ -300,10 +304,7 @@
         justify-content: flex-start;
         margin-top: 0;
         border-top: 0;
-        position: sticky;
-        top: 57px;
-        z-index: 8;
-        background: #fff;
+       top: 57px;
     }
     .sliderImg {
         width: 100%;

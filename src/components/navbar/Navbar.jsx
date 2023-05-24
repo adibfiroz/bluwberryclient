@@ -9,10 +9,10 @@ import useFetch from "../../hooks/useFetch";
 
 const Navbar = () => {
   const [addClass, setAddClass] = useState(false);
-  const { user, dispatch, loading } = useContext(AuthContext);
-  const navigate = useNavigate();
-  const { data } = useFetch("/software");
+  const { user, dispatch } = useContext(AuthContext);
   const [showSearch, setShowSearch] = useState("");
+  const { data, loading } = useFetch("/software");
+  const navigate = useNavigate();
 
   const onSearch = (e) => {
     setShowSearch(e.target.value);

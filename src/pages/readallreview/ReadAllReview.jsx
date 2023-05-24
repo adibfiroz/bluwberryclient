@@ -20,14 +20,64 @@ import GoToTop from "../../components/gototop/GoToTop";
 import useFetch from "../../hooks/useFetch";
 import Reviews from "../../components/reviews/Reviews";
 
+const ScrollTo = ({ id, title, active, setSelected, to }) => {
+  return (
+    <a
+      href={`#${to}`}
+      className={active ? "softList active" : "softList"}
+      onClick={() => setSelected(id)}
+    >
+      {title}
+    </a>
+  );
+};
+
+const list = [
+  {
+    id: "about",
+    title: "About",
+    to: "about",
+  },
+  {
+    id: "price",
+    title: "Price",
+    to: "price",
+  },
+  {
+    id: "features",
+    title: "Features",
+    to: "features",
+  },
+  {
+    id: "reviews",
+    title: "Reviews",
+    to: "reviews",
+  },
+  {
+    id: "articles",
+    title: "Articles",
+    to: "articles",
+  },
+];
+
 const ReadAllReview = (props) => {
   const [slideNumber, setSlideNumber] = useState(0);
   const [open, setOpen] = useState(false);
   const [age, setAge] = React.useState("");
   const location = useLocation();
   const id = location.pathname.split("-")[1];
-
+  const [selected, setSelected] = useState("about");
   const { data } = useFetch(`/software/find/${id}`);
+
+  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener("click", function (e) {
+      e.preventDefault();
+      document.querySelector(this.getAttribute("href")).scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    });
+  });
 
   const handleSelect = (event) => {
     setAge(event.target.value);
@@ -104,14 +154,19 @@ const ReadAllReview = (props) => {
         sId={id}
       />
       <div className="tabList container">
-        {data.address ? <Link className="active">About</Link> : <></>}
-        <Link>Pricing</Link>
-        <Link>Features</Link>
-        <Link>Reviews</Link>
-        <Link>Articles</Link>
+        {list.map((item) => (
+          <ScrollTo
+            title={item.title}
+            active={selected === item.id}
+            setSelected={setSelected}
+            id={item.id}
+            key={item.id}
+            to={item.to}
+          />
+        ))}
       </div>
 
-      <div className="softwareDetails container">
+      <div className="softwareDetails container" id="about">
         <div className="dFlex">
           <div className="lDetials">
             <h2>What is {data.name} ?</h2>
@@ -146,7 +201,7 @@ const ReadAllReview = (props) => {
       </div>
 
       {data?.price ? (
-        <div className="price">
+        <div className="price" id="price">
           <div className="container">
             <div className="pricing">
               <span>Starting Price</span> : starts at ${data.price} &nbsp;&nbsp;
@@ -247,7 +302,7 @@ const ReadAllReview = (props) => {
         </div>
       </div>
 
-      <div className="features">
+      <div className="features" id="features">
         <div className="container">
           <h2>{data.name} Features</h2>
           <div className="featureList">
@@ -377,7 +432,9 @@ const ReadAllReview = (props) => {
               </div>
             </div>
           </div>
-          <h2 className="softReview">{data.name} Reviews</h2>
+          <h2 className="softReview" id="reviews">
+            {data.name} Reviews
+          </h2>
           <Reviews softId={id} />
 
           <div className="pagination">
@@ -399,7 +456,7 @@ const ReadAllReview = (props) => {
 
       <div className="topArticle">
         <h3 style={{ textAlign: "left" }}>Top Recommended Articles</h3>
-        <div className="article">
+        <div className="article" id="articles">
           <ArticleCard />
           <ArticleCard />
           <ArticleCard />

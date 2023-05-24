@@ -3,16 +3,19 @@ import StarRoundedIcon from "@mui/icons-material/StarRounded";
 import useFetch from "../../hooks/useFetch";
 import Rating from "@mui/material/Rating";
 import { Link } from "react-router-dom";
+import Skeleton from "../skeleton/Skeleton";
 
 const Card = ({ item }) => {
-  const { data, loading } = useFetch(
+  const { data, loading, error } = useFetch(
     "/software/getPopular?popular=true&limit=8"
   );
 
   return (
     <div className="popularCard">
       {loading ? (
-        "loading"
+        <Skeleton type="popularCard" />
+      ) : error ? (
+        "Something went wrong!"
       ) : (
         <>
           {data?.map((item) => (

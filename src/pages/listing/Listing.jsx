@@ -18,6 +18,7 @@ import ArticleCard from "../../components/articlecard/ArticleCard";
 import Footer from "../../components/footer/Footer";
 import GoToTop from "../../components/gototop/GoToTop";
 import useFetch from "../../hooks/useFetch";
+import Skeleton from "../../components/skeleton/Skeleton";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -144,13 +145,15 @@ const Listing = () => {
         <div className="container">
           <div className="listFlex">
             <div className="lCard">
-              {loading
-                ? "loading"
-                : error
-                ? "something went wrong!"
-                : data.map((listSoftware) => (
-                    <ListingCard key={listSoftware._id} item={listSoftware} />
-                  ))}
+              {loading ? (
+                <Skeleton type="listingCard" />
+              ) : error ? (
+                "something went wrong!"
+              ) : (
+                data.map((listSoftware) => (
+                  <ListingCard key={listSoftware._id} item={listSoftware} />
+                ))
+              )}
               <div className="pagination">
                 <Pagination count={6} color="primary" />
               </div>

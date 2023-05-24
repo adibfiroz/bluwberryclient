@@ -7,6 +7,7 @@ import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import Footer from "../../components/footer/Footer";
+import Skeleton from "../../components/skeleton/Skeleton";
 
 const Categories = () => {
   const [query, setQuery] = useState("");
@@ -44,7 +45,7 @@ const Categories = () => {
 
       <div className="container">
         {loading ? (
-          "loading"
+          <Skeleton type="catList" />
         ) : (
           <>
             {filterList
