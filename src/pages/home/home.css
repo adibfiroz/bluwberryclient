@@ -94,7 +94,6 @@
     background-color: #1859B4;
     border-radius: 30px;
     top: 6px;
-    cursor: pointer;
 }
 
 .headSearch .notFound {
@@ -147,6 +146,8 @@
     padding: 10px 20px;
     position: relative;
     border-radius: 25px;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 600;
 }
 
 .popular {

@@ -7,7 +7,7 @@ import React, { useContext } from "react";
 import { Button } from "@mui/material";
 import RespNavbar from "../../components/navbar/RespNavbar";
 import Footer from "../../components/footer/Footer";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import { useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
@@ -63,7 +63,9 @@ const WriteReview = () => {
             />
             <div>
               <div className="writeTxt">Write a review on</div>
-              <div className="softtitle">{data.name}</div>
+              <Link to={`/${data.name}-${data._id}`}>
+                <div className="softtitle">{data.name}</div>
+              </Link>
             </div>
           </div>
           <div className="reviewForm">

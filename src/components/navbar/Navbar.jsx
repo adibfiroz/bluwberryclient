@@ -33,7 +33,7 @@ const Navbar = () => {
 
   const handleWrite = () => {
     if (user) {
-      navigate("/categories");
+      navigate("/selectSoftwares");
     } else {
       navigate("/login");
     }
@@ -122,7 +122,7 @@ const Navbar = () => {
                   </Link>
                 </div>
               </div>
-              <Link to="/categories">
+              <Link to="/selectSoftwares">
                 <Button className="writeText">Write a Review</Button>
               </Link>
             </div>
@@ -131,9 +131,13 @@ const Navbar = () => {
               <Link to="/login">
                 <span className="headText">Login In / Sign Up</span>
               </Link>
-              <Button onClick={handleWrite} className="writeText">
+              <Link
+                to="/selectSoftwares"
+                onClick={handleWrite}
+                className="writeText"
+              >
                 Write a Review
-              </Button>
+              </Link>
             </div>
           )}
         </div>

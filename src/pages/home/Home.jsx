@@ -9,13 +9,18 @@ import ArticleCard from "../../components/articlecard/ArticleCard";
 import Footer from "../../components/footer/Footer";
 import GoToTop from "../../components/gototop/GoToTop";
 import useFetch from "../../hooks/useFetch";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Skeleton from "../../components/skeleton/Skeleton";
+import { AuthContext } from "../../context/AuthContext";
 
 const Home = () => {
   const [showSearch, setShowSearch] = useState("");
   const { data, loading } = useFetch("/software");
+  const { user } = useContext(AuthContext);
+
+  const navigate = useNavigate();
+
   const { data: dTrend, loading: lTrend } = useFetch(
     "/categories?trending=true&limit=8"
   );
@@ -27,6 +32,14 @@ const Home = () => {
   const filterList = data.filter((search) =>
     search.name.toLowerCase().includes(showSearch.toLowerCase())
   );
+
+  const handleWrite = () => {
+    if (user) {
+      navigate("/selectSoftwares");
+    } else {
+      navigate("/login");
+    }
+  };
 
   return (
     <div className="home">
@@ -96,7 +109,9 @@ const Home = () => {
             Boost Your Productivity With Free Guides and Resources and
             Installation with BB
           </p>
-          <Button>READ & DISCOVER SOFTWARE</Button>
+          <Link to="/categories">
+            <Button>READ & DISCOVER SOFTWARE</Button>
+          </Link>
         </div>
         <div className="exploreCard">
           <img src="/ExploreCard2.jpg" alt="logo" />
@@ -113,7 +128,8 @@ const Home = () => {
           <p>
             Share your software experience to help BB others make great choices
           </p>
-          <Button>WRITE REVIEW ON BB</Button>
+
+          <Button onClick={handleWrite}>WRITE REVIEW ON BB</Button>
         </div>
       </div>
 

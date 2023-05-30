@@ -13,6 +13,7 @@ import ScrollToTop from "./ScrollToTop";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
+import Prewrite from "./pages/prewrite/Prewrite";
 
 function App() {
   const queryClient = new QueryClient();
@@ -26,7 +27,7 @@ function App() {
     return children;
   };
 
-  const ProtectedRegRoute = ({ children }) => {
+  const ProtectedUserRoute = ({ children }) => {
     const { user } = useContext(AuthContext);
 
     if (user) {
@@ -69,16 +70,31 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route path="login" element={<Login />} />
+            <Route
+              path="login"
+              element={
+                <ProtectedUserRoute>
+                  <Login />
+                </ProtectedUserRoute>
+              }
+            />
             <Route
               path="register"
               element={
-                <ProtectedRegRoute>
+                <ProtectedUserRoute>
                   <Register />
-                </ProtectedRegRoute>
+                </ProtectedUserRoute>
               }
             />
             <Route path="/:id-:id" element={<ReadAllReview />} />
+            <Route
+              path="selectSoftwares"
+              element={
+                <ProtectedRoute>
+                  <Prewrite />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </BrowserRouter>
       </QueryClientProvider>

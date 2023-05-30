@@ -10,7 +10,7 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import useFetch from "../../hooks/useFetch";
 
@@ -20,6 +20,7 @@ const RespNavbar = (props) => {
   const { data, loading } = useFetch("/software");
   const { user, dispatch } = useContext(AuthContext);
   const [showSearch, setShowSearch] = useState("");
+  const navigate = useNavigate();
 
   const onSearch = (e) => {
     setShowSearch(e.target.value);
@@ -38,6 +39,18 @@ const RespNavbar = (props) => {
   const handleClear = (e) => {
     setShowSearch("");
     setOpenSearch(false);
+  };
+
+  const handleWrite = () => {
+    if (user) {
+      navigate("/selectSoftwares");
+      setOpen(false);
+      document.body.classList.remove("scrollHide");
+    } else {
+      navigate("/login");
+      setOpen(false);
+      document.body.classList.remove("scrollHide");
+    }
   };
 
   return (
@@ -175,15 +188,7 @@ const RespNavbar = (props) => {
                     <PanoramaOutlinedIcon className="menuIcon" />
                     Advertise with us
                   </li>
-                  <Link
-                    to="/categories"
-                    onClick={() =>
-                      setOpen(
-                        false,
-                        document.body.classList.remove("scrollHide")
-                      )
-                    }
-                  >
+                  <Link onClick={handleWrite}>
                     <li>
                       <RateReviewOutlinedIcon className="menuIcon" />
                       Write a Review
@@ -260,7 +265,7 @@ const RespNavbar = (props) => {
                       </li>
                     </Link>
                     <Link
-                      to="/categories"
+                      to="/selectSoftwares"
                       onClick={() =>
                         setOpen(
                           false,

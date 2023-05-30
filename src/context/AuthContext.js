@@ -4,7 +4,6 @@ const INITAIL_STATE = {
   user: JSON.parse(localStorage.getItem("user") || null),
   loading: false,
   error: null,
-  sId: [],
 };
 
 export const AuthContext = createContext(INITAIL_STATE);

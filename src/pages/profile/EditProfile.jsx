@@ -110,7 +110,6 @@ const EditProfile = () => {
                 <div className="dFlex">
                   <input
                     type="number"
-                    required
                     maxLength="10"
                     className="editInputs"
                     placeholder={user.mobile || "mobile"}
@@ -119,7 +118,6 @@ const EditProfile = () => {
                   <input
                     type="text"
                     className="editInputs"
-                    required
                     placeholder={user.linkIn || "linkedIn"}
                     onChange={(e) => setLinkIn(e.target.value)}
                   />
@@ -128,21 +126,18 @@ const EditProfile = () => {
                   <input
                     type="text"
                     className="editInputs flex3"
-                    required
                     onChange={(e) => setCity(e.target.value)}
                     placeholder={user.city || "city"}
                   />
                   <input
                     type="text"
                     className="editInputs flex3"
-                    required
                     onChange={(e) => setCountry(e.target.value)}
                     placeholder={user.country || "country"}
                   />
                   <input
                     type="number"
                     className="editInputs flex3"
-                    required
                     onChange={(e) => setZipcode(e.target.value)}
                     placeholder={user.zipcode || "zipcode"}
                   />
@@ -151,7 +146,6 @@ const EditProfile = () => {
                   <input
                     type="text"
                     className="editInputs"
-                    required
                     onChange={(e) => setAddress(e.target.value)}
                     placeholder={user.address || "address"}
                   />
