@@ -56,8 +56,6 @@ const SoftwareSaved = () => {
               </div>
             </div>
             <div className="savedSoft">
-              <h2>Software Saved</h2>
-
               <SavedSoftware saveSoft={user._id} />
             </div>
           </div>

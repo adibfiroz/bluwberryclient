@@ -1,10 +1,37 @@
 import "./listingcard.css";
 import StarRoundedIcon from "@mui/icons-material/StarRounded";
 import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
+import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
 import Rating from "@mui/material/Rating";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import newRequest from "../../config";
 
 const ListingCard = ({ item }) => {
+  const { user, dispatch } = useContext(AuthContext);
+  const [save, setSave] = useState(user?.savedSoftwares.includes(item._id));
+  const navigate = useNavigate();
+
+  const handleClick = async (id) => {
+    if (!user) return navigate("/login");
+
+    try {
+      if (save) {
+        await newRequest.put(`/users/remove/${id}`, {
+          userId: user._id,
+        });
+        dispatch({ type: "REMOVE", payload: id });
+      } else {
+        await newRequest.put(`/users/save/${id}`, {
+          userId: user._id,
+        });
+        dispatch({ type: "SAVED", payload: id });
+      }
+      setSave(!save);
+    } catch (err) {}
+  };
+
   return (
     <div>
       <div className="listingcard">
@@ -40,8 +67,12 @@ const ListingCard = ({ item }) => {
               </div>
               <div className="reviewCount">{item.starNumber} Reviews</div>
             </div>
-            <div className="like">
-              <FavoriteBorderRoundedIcon className="unfillIcon" />
+            <div className="like" onClick={() => handleClick(item._id)}>
+              {save ? (
+                <FavoriteRoundedIcon className="fillIcon" />
+              ) : (
+                <FavoriteBorderRoundedIcon className="unfillIcon" />
+              )}
             </div>
           </div>
         </div>

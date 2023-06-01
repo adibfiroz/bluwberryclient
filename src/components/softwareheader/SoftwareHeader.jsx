@@ -11,7 +11,7 @@ import Rating from "@mui/material/Rating";
 import newRequest from "../../config";
 
 const SoftwareHeader = (props) => {
-  const { user } = useContext(AuthContext);
+  const { user, dispatch } = useContext(AuthContext);
   const [save, setSave] = useState(user?.savedSoftwares.includes(props.sId));
   const navigate = useNavigate();
 
@@ -41,12 +41,12 @@ const SoftwareHeader = (props) => {
         await newRequest.put(`/users/remove/${props.sId}`, {
           userId: user._id,
         });
-        //dispatch({ type: "REMOVE", payload: user._id });
+        dispatch({ type: "REMOVE", payload: props.sId });
       } else {
         await newRequest.put(`/users/save/${props.sId}`, {
           userId: user._id,
         });
-        // dispatch({ type: "SAVED", payload: user._id });
+        dispatch({ type: "SAVED", payload: props.sId });
       }
       setSave(!save);
     } catch (err) {}

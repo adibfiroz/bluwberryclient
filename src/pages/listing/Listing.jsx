@@ -102,6 +102,7 @@ const Listing = () => {
                   multiple
                   value={personName}
                   onChange={handleChange}
+                  disabled
                   input={
                     <OutlinedInput id="select-multiple-chip" label="Chip" />
                   }

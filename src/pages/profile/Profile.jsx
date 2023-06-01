@@ -15,7 +15,7 @@ import ReviwedCat from "./ReviwedCat";
 
 const Profile = () => {
   const { user, dispatch } = useContext(AuthContext);
-  const { data } = useFetch(`/users/reviews/${user._id}`);
+  const { data, loading } = useFetch(`/users/reviews/${user._id}`);
 
   return (
     <div className="profile">
@@ -91,9 +91,26 @@ const Profile = () => {
             </div>
             <div className="reviews">
               <h2>Reviews</h2>
-              {data.map((userRev) => (
-                <ProfileReview key={userRev._id} userRev={userRev} />
-              ))}
+              {data.length ? (
+                loading ? (
+                  "loading"
+                ) : (
+                  data.map((userRev) => (
+                    <ProfileReview key={userRev._id} userRev={userRev} />
+                  ))
+                )
+              ) : (
+                <p className="noReview">
+                  There are no reviews available.
+                  <Link
+                    style={{ color: "#1859B4", fontWeight: 600 }}
+                    to="/selectSoftwares"
+                  >
+                    {" "}
+                    Write a Review
+                  </Link>
+                </p>
+              )}
             </div>
             <div className="reviewSidebar">
               <div className="sidebarBox">

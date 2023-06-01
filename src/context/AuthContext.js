@@ -4,6 +4,7 @@ const INITAIL_STATE = {
   user: JSON.parse(localStorage.getItem("user") || null),
   loading: false,
   error: null,
+  savedSoftwares: [],
 };
 
 export const AuthContext = createContext(INITAIL_STATE);
@@ -51,7 +52,24 @@ const AuthReducer = (state, action) => {
         loading: false,
         error: action.payload,
       };
-
+    case "SAVED":
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          savedSoftwares: [...state.user.savedSoftwares, action.payload],
+        },
+      };
+    case "REMOVE":
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          savedSoftwares: state.user.savedSoftwares.filter(
+            (remove) => remove !== action.payload
+          ),
+        },
+      };
     default:
       return state;
   }

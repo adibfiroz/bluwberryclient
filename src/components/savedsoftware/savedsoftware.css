@@ -37,6 +37,15 @@
     right: 20px;
     color: #1859B4;
     top: 20px;
+    cursor: pointer;
+}
+
+.notSave {
+    padding: 30px;
+    text-align: center;
+    font-size: 16px;
+    color: #000;
+    font-weight: 500;
 }
 
 @media (max-width:900px) {
