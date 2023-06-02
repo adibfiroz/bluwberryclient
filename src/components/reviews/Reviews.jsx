@@ -6,7 +6,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
 const Reviews = ({ softId }) => {
-  const { data } = useFetch(`/reviews/${softId}`);
+  const { data, reFetch } = useFetch(`/reviews/${softId}`);
   const { user } = useContext(AuthContext);
 
   const navigate = useNavigate();
@@ -22,7 +22,9 @@ const Reviews = ({ softId }) => {
   return (
     <div className="reviewUser">
       {data.length ? (
-        data.map((review) => <Review key={review._id} review={review} />)
+        data.map((review) => (
+          <Review reFetch={reFetch} key={review._id} review={review} />
+        ))
       ) : (
         <p className="noReview">
           There are no reviews available. Be the first to

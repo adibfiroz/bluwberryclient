@@ -5,6 +5,7 @@ const INITAIL_STATE = {
   loading: false,
   error: null,
   savedSoftwares: [],
+  likes: [],
 };
 
 export const AuthContext = createContext(INITAIL_STATE);
@@ -68,6 +69,22 @@ const AuthReducer = (state, action) => {
           savedSoftwares: state.user.savedSoftwares.filter(
             (remove) => remove !== action.payload
           ),
+        },
+      };
+    case "liked":
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          likes: [state.user.likes, action.payload],
+        },
+      };
+    case "unliked":
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          likes: state.user.likes.filter((unlike) => unlike !== action.payload),
         },
       };
     default:
