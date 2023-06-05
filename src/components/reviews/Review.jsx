@@ -18,21 +18,25 @@ const Review = ({ review, reFetch }) => {
   const handleClick = async () => {
     if (!user) return navigate("/login");
 
-    try {
-      if (liked) {
-        await newRequest.put(`/users/unlike/${review._id}`, {
-          userId: user._id,
-        });
-        dispatch({ type: "unliked", payload: user._id });
-      } else {
-        await newRequest.put(`/users/like/${review._id}`, {
-          userId: user._id,
-        });
-        dispatch({ type: "liked", payload: user._id });
-      }
-      setliked(!liked);
-      reFetch();
-    } catch (err) {}
+    if (review?.userId === user?._id) {
+      alert("You cannot rate your own review!");
+    } else {
+      try {
+        if (liked) {
+          await newRequest.put(`/users/unlike/${review._id}`, {
+            userId: user._id,
+          });
+          dispatch({ type: "unliked", payload: user._id });
+        } else {
+          await newRequest.put(`/users/like/${review._id}`, {
+            userId: user._id,
+          });
+          dispatch({ type: "liked", payload: user._id });
+        }
+        setliked(!liked);
+        reFetch();
+      } catch (err) {}
+    }
   };
 
   return (
