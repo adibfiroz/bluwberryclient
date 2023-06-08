@@ -71,12 +71,6 @@ const Profile = () => {
                 type="text"
                 placeholder={user.username}
               />
-              <div className="bioTitle">last name</div>
-              <input
-                className="userInfo"
-                type="text"
-                placeholder="Naruto uzumaki"
-              />
               <div className="bioTitle">BUSINESS EMAIL ADDRESS</div>
               <input
                 className="userInfo"
@@ -84,10 +78,7 @@ const Profile = () => {
                 placeholder={user.email}
               />
               <div className="bioTitle">ADDRESS</div>
-              <div className="userInfo">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Impedit, omnis.
-              </div>
+              <div className="userInfo">{user.address || "Your address"}</div>
             </div>
             <div className="reviews">
               <h2>Reviews</h2>

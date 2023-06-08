@@ -112,14 +112,16 @@ const EditProfile = () => {
                     type="number"
                     maxLength="10"
                     className="editInputs"
-                    placeholder={user.mobile || "mobile"}
+                    placeholder={user.mobile || "Your mobile"}
                     onChange={(e) => setMobile(e.target.value)}
+                    defaultValue={user.mobile}
                   />
                   <input
                     type="text"
                     className="editInputs"
-                    placeholder={user.linkIn || "linkedIn"}
+                    placeholder={user.linkIn || "Your linkedIn"}
                     onChange={(e) => setLinkIn(e.target.value)}
+                    defaultValue={user.linkIn}
                   />
                 </div>
                 <div className="dFlex">
@@ -127,19 +129,22 @@ const EditProfile = () => {
                     type="text"
                     className="editInputs flex3"
                     onChange={(e) => setCity(e.target.value)}
-                    placeholder={user.city || "city"}
+                    placeholder={user.city || "Your city"}
+                    defaultValue={user.city}
                   />
                   <input
                     type="text"
                     className="editInputs flex3"
                     onChange={(e) => setCountry(e.target.value)}
-                    placeholder={user.country || "country"}
+                    placeholder={user.country || "Your country"}
+                    defaultValue={user.country}
                   />
                   <input
                     type="number"
                     className="editInputs flex3"
                     onChange={(e) => setZipcode(e.target.value)}
-                    placeholder={user.zipcode || "zipcode"}
+                    placeholder={user.zipcode || "Your zipcode"}
+                    defaultValue={user.zipcode}
                   />
                 </div>
                 <div className="dFlex">
@@ -147,7 +152,8 @@ const EditProfile = () => {
                     type="text"
                     className="editInputs"
                     onChange={(e) => setAddress(e.target.value)}
-                    placeholder={user.address || "address"}
+                    placeholder={user.address || "Your address"}
+                    defaultValue={user.address}
                   />
                 </div>
                 <button disabled={loading} className="updateBtn">

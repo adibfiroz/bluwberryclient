@@ -1,7 +1,7 @@
 import Navbar from "../../components/navbar/Navbar";
 import RespNavbar from "../../components/navbar/RespNavbar";
 import "./register.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import { useState } from "react";
 import FormInput from "./FormInput";
@@ -15,6 +15,8 @@ const Register = () => {
   });
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   const inputs = [
     {
@@ -58,7 +60,7 @@ const Register = () => {
       const res = await newRequest.post("/auth/register", {
         ...values,
       });
-      res.data && window.location.replace("/");
+      res.status === 200 && navigate("/login");
       setLoading(false);
     } catch (err) {
       setError(true);
