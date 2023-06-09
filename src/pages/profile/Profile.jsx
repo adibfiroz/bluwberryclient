@@ -65,7 +65,7 @@ const Profile = () => {
         <div className="container">
           <div className="dFlex">
             <div className="lBio">
-              <div className="bioTitle">first name</div>
+              <div className="bioTitle">Name</div>
               <input
                 className="userInfo"
                 type="text"

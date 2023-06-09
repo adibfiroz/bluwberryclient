@@ -5,8 +5,12 @@ import RespNavbar from "../../components/navbar/RespNavbar";
 import SavedSoftware from "../../components/savedsoftware/SavedSoftware";
 import UserProfile from "../../components/userprofile/UserProfile";
 import { AuthContext } from "../../context/AuthContext";
+import { Fade, Tooltip } from "@mui/material";
+import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsActiveOutlined";
+import ExitToAppOutlinedIcon from "@mui/icons-material/ExitToAppOutlined";
+
 const SoftwareSaved = () => {
-  const { user } = useContext(AuthContext);
+  const { user, dispatch } = useContext(AuthContext);
 
   return (
     <div className="SoftwareSaved">
@@ -20,10 +24,34 @@ const SoftwareSaved = () => {
           <Link to="/edit-profile">
             <div className="navLinks">Edit Profile</div>
           </Link>
-          <Link to="/software-saved">
-            <div className="navLinks active">Software Saved</div>
-          </Link>
-          <div className="navLinks">Logout</div>
+          <div className="navLinks active">Software Saved</div>
+          <div className="settings">
+            <Link to="/" onClick={() => dispatch({ type: "LOGOUT" })}>
+              <Tooltip
+                className="settIcons"
+                TransitionComponent={Fade}
+                TransitionProps={{ timeout: 600 }}
+                title="LOGOUT"
+                arrow
+              >
+                <span>
+                  <ExitToAppOutlinedIcon />
+                </span>
+              </Tooltip>
+            </Link>
+
+            <Tooltip
+              className="settIcons"
+              title="NOTIFICATION"
+              TransitionComponent={Fade}
+              TransitionProps={{ timeout: 600 }}
+              arrow
+            >
+              <span>
+                <NotificationsActiveOutlinedIcon />
+              </span>
+            </Tooltip>
+          </div>
         </div>
       </div>
 
@@ -31,29 +59,20 @@ const SoftwareSaved = () => {
         <div className="container">
           <div className="dFlex mFlex">
             <div className="lBio">
-              <div className="bioTitle">first name</div>
+              <div className="bioTitle">Name</div>
               <input
                 className="userInfo"
                 type="text"
-                placeholder="Naruto uzumaki"
-              />
-              <div className="bioTitle">last name</div>
-              <input
-                className="userInfo"
-                type="text"
-                placeholder="Naruto uzumaki"
+                placeholder={user.username}
               />
               <div className="bioTitle">BUSINESS EMAIL ADDRESS</div>
               <input
                 className="userInfo"
                 type="text"
-                placeholder="Naruto uzumaki"
+                placeholder={user.email}
               />
               <div className="bioTitle">ADDRESS</div>
-              <div className="userInfo">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Impedit, omnis.
-              </div>
+              <div className="userInfo">{user.address || "Your address"}</div>
             </div>
             <div className="savedSoft">
               <SavedSoftware saveSoft={user._id} />

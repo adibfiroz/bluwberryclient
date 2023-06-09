@@ -58,7 +58,7 @@ const ProfileReview = ({ userRev }) => {
             <div>
               <ThumbUpAltOutlinedIcon className="thumbUp" />
             </div>
-            <div className="likeCount">0</div>
+            <div className="likeCount">{userRev.likes.length}</div>
           </div>
         </div>
       </div>

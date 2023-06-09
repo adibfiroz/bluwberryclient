@@ -8,6 +8,9 @@ import Stack from "@mui/material/Stack";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import newRequest from "../../config";
+import { Fade, Tooltip } from "@mui/material";
+import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsActiveOutlined";
+import ExitToAppOutlinedIcon from "@mui/icons-material/ExitToAppOutlined";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -15,14 +18,12 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 const EditProfile = () => {
   const { user, dispatch } = useContext(AuthContext);
-  const [username, setUsername] = useState(user.username);
-  const [email, setEmail] = useState(user.email);
-  const [mobile, setMobile] = useState("");
-  const [linkIn, setLinkIn] = useState("");
-  const [city, setCity] = useState("");
-  const [country, setCountry] = useState("");
-  const [zipcode, setZipcode] = useState("");
-  const [address, setAddress] = useState("");
+  const [mobile, setMobile] = useState(user.mobile);
+  const [linkIn, setLinkIn] = useState(user.linkIn);
+  const [city, setCity] = useState(user.city);
+  const [country, setCountry] = useState(user.country);
+  const [zipcode, setZipcode] = useState(user.zipcode);
+  const [address, setAddress] = useState(user.address);
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
 
@@ -39,8 +40,6 @@ const EditProfile = () => {
     dispatch({ type: "UPDATE_START" });
     const updateUser = {
       userId: user._id,
-      username,
-      email,
       mobile,
       linkIn,
       city,
@@ -68,13 +67,37 @@ const EditProfile = () => {
           <Link to="/profile">
             <div className="navLinks">Reviews</div>
           </Link>
-          <Link to="/edit-profile">
-            <div className="navLinks active">Edit Profile</div>
-          </Link>
+          <div className="navLinks active">Edit Profile</div>
           <Link to="/software-saved">
             <div className="navLinks">Software Saved</div>
           </Link>
-          <div className="navLinks">Logout</div>
+          <div className="settings">
+            <Link to="/" onClick={() => dispatch({ type: "LOGOUT" })}>
+              <Tooltip
+                className="settIcons"
+                TransitionComponent={Fade}
+                TransitionProps={{ timeout: 600 }}
+                title="LOGOUT"
+                arrow
+              >
+                <span>
+                  <ExitToAppOutlinedIcon />
+                </span>
+              </Tooltip>
+            </Link>
+
+            <Tooltip
+              className="settIcons"
+              title="NOTIFICATION"
+              TransitionComponent={Fade}
+              TransitionProps={{ timeout: 600 }}
+              arrow
+            >
+              <span>
+                <NotificationsActiveOutlinedIcon />
+              </span>
+            </Tooltip>
+          </div>
         </div>
       </div>
 
@@ -95,16 +118,14 @@ const EditProfile = () => {
                     className="editInputs"
                     placeholder={user.username}
                     value={user.username}
-                    required
-                    onChange={(e) => setUsername(e.target.value)}
+                    disabled
                   />
                   <input
                     type="email"
                     className="editInputs"
-                    required
-                    onChange={(e) => setEmail(e.target.value)}
                     placeholder={user.email}
                     value={user.email}
+                    disabled
                   />
                 </div>
                 <div className="dFlex">
